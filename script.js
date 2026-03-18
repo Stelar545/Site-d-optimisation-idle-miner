@@ -123,6 +123,14 @@ function ajouterMineGlobale() {
   afficherMenuMines();
 }
 
+function coutNouveauPuits() {
+  const data = minesData[mineActive];
+  const nb = data.mines.length;
+
+  // Formule simple : chaque nouveau puits coûte 500 * (nb + 1)
+  return 500 * (nb + 1);
+}
+
 // --- RECOMMANDATION ---
 
 function meilleureAmelioration() {
