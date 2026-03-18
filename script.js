@@ -169,14 +169,18 @@ function afficherMines() {
     div.className = "mine";
 
     div.innerHTML = `
-      <p>Puits ${mine.id} — Niveau : ${mine.level}</p>
+      <p>Puits ${mine.id}</p>
       <p>Production : ${mine.production.toFixed(2)}</p>
       <p>Gain : +${mine.gain.toFixed(2)}</p>
       <p>Coût : ${mine.nextCost}</p>
 
       <div class="mine-controls">
         <button class="small" onclick="downgradeMine(${mine.id})">-</button>
-        <span>Niveau ${mine.level}</span>
+
+        <input type="number" min="1" value="${mine.level}"
+               onchange="setMineLevel(${mine.id}, this.value)"
+               style="width:60px; text-align:center;">
+
         <button class="small" onclick="upgradeMine(${mine.id})">+</button>
       </div>
     `;
@@ -185,11 +189,27 @@ function afficherMines() {
   });
 }
 
+
+    container.appendChild(div);
+  });
+}
+
 function afficherTransport() {
   const data = minesData[mineActive];
-  document.getElementById("elevatorLevel").textContent = data.elevator.level;
-  document.getElementById("warehouseLevel").textContent = data.warehouse.level;
+
+  document.getElementById("elevatorLevel").innerHTML = `
+    <input type="number" min="1" value="${data.elevator.level}"
+           onchange="setElevatorLevel(this.value)"
+           style="width:60px; text-align:center;">
+  `;
+
+  document.getElementById("warehouseLevel").innerHTML = `
+    <input type="number" min="1" value="${data.warehouse.level}"
+           onchange="setWarehouseLevel(this.value)"
+           style="width:60px; text-align:center;">
+  `;
 }
+
 
 function afficherRecommandation() {
   document.getElementById("recommandation").textContent =
@@ -227,6 +247,17 @@ function downgradeMine(id) {
   afficherTout();
 }
 
+function setMineLevel(id, value) {
+  const mine = minesData[mineActive].mines.find(m => m.id === id);
+  let lvl = parseInt(value);
+
+  if (isNaN(lvl) || lvl < 1) lvl = 1;
+
+  mine.level = lvl;
+  sauvegarder();
+  afficherTout();
+}
+
 function upgradeElevator() {
   minesData[mineActive].elevator.level++;
   sauvegarder();
@@ -235,6 +266,24 @@ function upgradeElevator() {
 
 function upgradeWarehouse() {
   minesData[mineActive].warehouse.level++;
+  sauvegarder();
+  afficherTout();
+}
+
+function setElevatorLevel(value) {
+  let lvl = parseInt(value);
+  if (isNaN(lvl) || lvl < 1) lvl = 1;
+
+  minesData[mineActive].elevator.level = lvl;
+  sauvegarder();
+  afficherTout();
+}
+
+function setWarehouseLevel(value) {
+  let lvl = parseInt(value);
+  if (isNaN(lvl) || lvl < 1) lvl = 1;
+
+  minesData[mineActive].warehouse.level = lvl;
   sauvegarder();
   afficherTout();
 }
