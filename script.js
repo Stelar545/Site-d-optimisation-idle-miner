@@ -116,5 +116,41 @@ function upgradeWarehouse() {
   afficherTransport();
 }
 
+function meilleureAmelioration() {
+  if (mines.length === 0) {
+    return "Ajoute au moins un puits.";
+  }
+
+  // 1. Production totale
+  const totalProduction = mines.reduce((sum, m) => sum + m.production, 0);
+
+  // 2. Capacité totale du transport
+  const transportCapacity = elevator.capacity + warehouse.capacity;
+
+  // 3. Si le transport bloque
+  if (totalProduction > transportCapacity) {
+    // On choisit le moins cher entre ascenseur et dépôt
+    if (elevator.nextCost < warehouse.nextCost) {
+      return "Upgrade Ascenseur (transport bloque)";
+    } else {
+      return "Upgrade Dépôt (transport bloque)";
+    }
+  }
+
+  // 4. Sinon : trouver le puits le plus rentable
+  let meilleur = null;
+
+  mines.forEach(mine => {
+    const gain = productionMine(mine.level + 1) - mine.production;
+    const ratio = gain / mine.nextCost;
+
+    if (!meilleur || ratio > meilleur.ratio) {
+      meilleur = { id: mine.id, ratio };
+    }
+  });
+
+  return `Upgrade Puits ${meilleur.id}`;
+}
+
 afficherTransport();
 afficherMines();
