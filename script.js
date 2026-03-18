@@ -147,3 +147,13 @@ class Transport { ... }
 let mines = [];
 let elevator = new Transport(1);
 let warehouse = new Transport(1);
+
+function afficherMines() { ... }
+function afficherTransport() { ... }
+
+function upgradeMine(id) { ... }
+function upgradeElevator() { ... }
+function upgradeWarehouse() { ... }
+
+afficherTransport();
+afficherMines();
