@@ -1,117 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-  <title>Idle Miner Optimizer</title>
-  <style>
-    body {
-      font-family: Arial;
-      background: #121212;
-      color: white;
-      text-align: center;
-      padding: 30px;
-    }
-    input {
-      margin: 5px;
-      padding: 8px;
-      border-radius: 5px;
-      border: none;
-      width: 80px;
-    }
-    button {
-      padding: 10px 20px;
-      background: #00ff99;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin: 5px;
-    }
-    .box {
-      background: #1e1e1e;
-      padding: 20px;
-      border-radius: 10px;
-      display: inline-block;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Optimiseur Idle Miner Tycoon</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>⛏️ Idle Miner Optimizer PRO</h1>
+  <h1>Optimiseur Idle Miner Tycoon</h1>
 
-<div class="box">
-  <h3>Puits</h3>
-  <div id="shafts"></div>
+  <section id="transport">
+    <h2>Transport</h2>
 
-  <button onclick="addShaft()">➕ Ajouter un puits</button>
-  <br><br>
+    <div class="bloc">
+      <p>Ascenseur — Niveau : <span id="elevatorLevel">1</span></p>
+      <button onclick="upgradeElevator()">Upgrade Ascenseur</button>
+    </div>
 
-  <h3>Transport</h3>
-  <input id="elevator" type="number" placeholder="Ascenseur"><br>
-  <input id="warehouse" type="number" placeholder="Entrepôt"><br><br>
+    <div class="bloc">
+      <p>Dépôt — Niveau : <span id="warehouseLevel">1</span></p>
+      <button onclick="upgradeWarehouse()">Upgrade Dépôt</button>
+    </div>
+  </section>
 
-  <button onclick="calc()">🚀 Optimiser</button>
+  <section id="mines">
+    <h2>Puits</h2>
 
-  <h2 id="result"></h2>
-</div>
+    <button onclick="ajouterMine()">Ajouter un puits</button>
 
-<script>
-let shaftCount = 0;
+    <div id="mineList"></div>
+  </section>
 
-function addShaft() {
-  shaftCount++;
-  let div = document.createElement("div");
-  div.innerHTML = "Puits " + shaftCount + 
-    " : <input id='s"+shaftCount+"' type='number'><br>";
-  document.getElementById("shafts").appendChild(div);
-}
-
-// 6 puits par défaut
-for (let i = 0; i < 6; i++) addShaft();
-
-function calc() {
-  let elevator = parseInt(document.getElementById("elevator").value) || 0;
-  let warehouse = parseInt(document.getElementById("warehouse").value) || 0;
-
-  let bestValue = 0;
-  let bestShaft = 0;
-  let totalProduction = 0;
-
-  let shafts = [];
-
-  // Calcul production
-  for (let i = 1; i <= shaftCount; i++) {
-    let level = parseInt(document.getElementById("s"+i).value) || 0;
-
-    // simulation production
-    let production = Math.pow(level, 1.6);
-
-    shafts.push({level, production});
-    totalProduction += production;
-  }
-
-  // Capacité transport simulée
-  let transportCapacity = Math.pow(elevator, 1.5) + Math.pow(warehouse, 1.5);
-
-  // 🔴 Si transport bloque
-  if (transportCapacity < totalProduction * 0.7) {
-    document.getElementById("result").innerText =
-      "⚠️ Upgrade ASCENSEUR ou ENTREPÔT";
-    return;
-  }
-
-  // 🟢 Sinon → meilleur puits
-  for (let i = 0; i < shafts.length; i++) {
-    let value = shafts[i].production;
-
-    if (value > bestValue) {
-      bestValue = value;
-      bestShaft = i + 1;
-    }
-  }
-
-  document.getElementById("result").innerText =
-    "👉 Upgrade Puits " + bestShaft;
-}
-</script>
-
+  <script src="script.js"></script>
 </body>
 </html>
