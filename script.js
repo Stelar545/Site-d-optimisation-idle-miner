@@ -226,3 +226,7 @@ function upgradeWarehouse() {
   afficherTransport();
   afficherRecommandation();
 }
+
+afficherTransport();
+afficherMines();
+afficherRecommandation();
