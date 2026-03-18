@@ -154,3 +154,15 @@ function meilleureAmelioration() {
 
 afficherTransport();
 afficherMines();
+
+function afficherRecommandation() {
+  const reco = meilleureAmelioration();
+  document.getElementById("recommandation").textContent = "👉 " + reco;
+}
+
+function ajouterMine() {
+  const id = mines.length + 1;
+  mines.push(new Mine(id));
+  afficherMines();
+  afficherRecommandation();
+}
