@@ -190,6 +190,7 @@ function afficherMines() {
 }
 
 
+
     container.appendChild(div);
   });
 }
