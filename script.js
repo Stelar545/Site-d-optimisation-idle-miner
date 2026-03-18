@@ -1,7 +1,5 @@
 /*
 OPTIMISEUR IDLE MINER TYCOON — VERSION MULTI-MINE
-Option A : Multi-mine simple avec menu horizontal
-Sauvegarde séparée + boutons + / - + coût + gain + saisie clavier
 */
 
 // --- FORMULES ---
@@ -246,18 +244,6 @@ function setMineLevel(id, value) {
   if (isNaN(lvl) || lvl < 1) lvl = 1;
 
   mine.level = lvl;
-  sauvegarder();
-  afficherTout();
-}
-
-function upgradeElevator() {
-  minesData[mineActive].elevator.level++;
-  sauvegarder();
-  afficherTout();
-}
-
-function upgradeWarehouse() {
-  minesData[mineActive].warehouse.level++;
   sauvegarder();
   afficherTout();
 }
