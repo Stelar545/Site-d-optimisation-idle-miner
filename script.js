@@ -132,3 +132,18 @@ function upgradeWarehouse() {
 // --- Initialisation ---
 afficherTransport();
 afficherMines();
+
+/*
+   TON COMMENTAIRE ICI
+*/
+
+function productionMine(level) { ... }
+function coutUpgrade(level) { ... }
+function capaciteTransport(level) { ... }
+
+class Mine { ... }
+class Transport { ... }
+
+let mines = [];
+let elevator = new Transport(1);
+let warehouse = new Transport(1);
