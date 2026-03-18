@@ -1,6 +1,5 @@
 /*
 OBJECTIF DU PROJET :
-
 Créer un optimiseur Idle Miner Tycoon comme Bromine.
 
 Améliorations futures :
@@ -19,24 +18,23 @@ Logique actuelle :
 - Sinon → upgrade meilleur puits
 */
 
-// Ton code commence ici ↓↓↓
-
-function calculerProduction(level) {
-  return Math.pow(level, 1.6);
-}
-
-// --- Données du jeu ---
-// (On mettra les vraies formules plus tard)
-
 function productionMine(level) {
-  return Math.pow(level, 1.6); // provisoire
+  const base = 5;
+  const multiplier = 1.07;
+  return base * Math.pow(multiplier, level);
 }
 
 function coutUpgrade(level) {
-  return Math.floor(10 * Math.pow(1.15, level)); // provisoire
+  const baseCost = 100;
+  const growth = 1.15;
+  return Math.floor(baseCost * Math.pow(growth, level));
 }
 
-// --- Objets du jeu ---
+function capaciteTransport(level) {
+  const base = 20;
+  const growth = 1.12;
+  return Math.floor(base * Math.pow(growth, level));
+}
 
 class Mine {
   constructor(id, level = 1) {
@@ -59,7 +57,7 @@ class Transport {
   }
 
   get capacity() {
-    return this.level * 10; // provisoire
+    return capaciteTransport(this.level);
   }
 
   get nextCost() {
@@ -67,24 +65,9 @@ class Transport {
   }
 }
 
-// --- État du jeu ---
-
 let mines = [];
 let elevator = new Transport(1);
 let warehouse = new Transport(1);
-
-// --- Fonctions utilitaires ---
-
-function ajouterMine() {
-  const id = mines.length + 1;
-  mines.push(new Mine(id));
-}
-
-function resetMines() {
-  mines = [];
-}
-
-// --- Mise à jour de l'affichage ---
 
 function afficherMines() {
   const container = document.getElementById("mineList");
@@ -109,7 +92,11 @@ function afficherTransport() {
   document.getElementById("warehouseLevel").textContent = warehouse.level;
 }
 
-// --- Actions ---
+function ajouterMine() {
+  const id = mines.length + 1;
+  mines.push(new Mine(id));
+  afficherMines();
+}
 
 function upgradeMine(id) {
   const mine = mines.find(m => m.id === id);
@@ -128,32 +115,6 @@ function upgradeWarehouse() {
   warehouse.level++;
   afficherTransport();
 }
-
-// --- Initialisation ---
-afficherTransport();
-afficherMines();
-
-/*
-   TON COMMENTAIRE ICI
-*/
-
-function productionMine(level) { ... }
-function coutUpgrade(level) { ... }
-function capaciteTransport(level) { ... }
-
-class Mine { ... }
-class Transport { ... }
-
-let mines = [];
-let elevator = new Transport(1);
-let warehouse = new Transport(1);
-
-function afficherMines() { ... }
-function afficherTransport() { ... }
-
-function upgradeMine(id) { ... }
-function upgradeElevator() { ... }
-function upgradeWarehouse() { ... }
 
 afficherTransport();
 afficherMines();
