@@ -8,7 +8,17 @@ h1, h2 {
   color: #333;
 }
 
-.bloc {
+nav#mineSelector {
+  margin-bottom: 20px;
+}
+
+nav#mineSelector button {
+  margin-right: 10px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.bloc, .mine {
   background: white;
   padding: 10px;
   margin: 10px 0;
@@ -16,17 +26,17 @@ h1, h2 {
   box-shadow: 0 0 4px rgba(0,0,0,0.1);
 }
 
-.mine {
-  background: white;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 6px;
-  box-shadow: 0 0 4px rgba(0,0,0,0.1);
+.mine-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 button {
   padding: 6px 12px;
-  margin-top: 5px;
   cursor: pointer;
 }
 
+button.small {
+  padding: 4px 8px;
+}
