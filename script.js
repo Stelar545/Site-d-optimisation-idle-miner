@@ -165,3 +165,64 @@ function ajouterMine() {
   mines.push(new Mine(id));
   afficherRecommandation();
 }
+
+// --- AFFICHAGE ---
+
+function afficherMines() {
+  const container = document.getElementById("mineList");
+  container.innerHTML = "";
+
+  mines.forEach(mine => {
+    const div = document.createElement("div");
+    div.className = "mine";
+
+    div.innerHTML = `
+      <p>Puits ${mine.id} — Niveau : ${mine.level}</p>
+      <p>Production : ${mine.production.toFixed(2)}</p>
+      <button onclick="upgradeMine(${mine.id})">Upgrade</button>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
+function afficherTransport() {
+  document.getElementById("elevatorLevel").textContent = elevator.level;
+  document.getElementById("warehouseLevel").textContent = warehouse.level;
+}
+
+function afficherRecommandation() {
+  const reco = meilleureAmelioration();
+  document.getElementById("recommandation").textContent = "👉 " + reco;
+}
+
+
+// --- ACTIONS ---
+
+function ajouterMine() {
+  const id = mines.length + 1;
+  mines.push(new Mine(id));
+  afficherMines();
+  afficherRecommandation();
+}
+
+function upgradeMine(id) {
+  const mine = mines.find(m => m.id === id);
+  if (!mine) return;
+
+  mine.level++;
+  afficherMines();
+  afficherRecommandation();
+}
+
+function upgradeElevator() {
+  elevator.level++;
+  afficherTransport();
+  afficherRecommandation();
+}
+
+function upgradeWarehouse() {
+  warehouse.level++;
+  afficherTransport();
+  afficherRecommandation();
+}
