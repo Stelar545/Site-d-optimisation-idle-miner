@@ -34,37 +34,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
-function productionMine(level) {
-  const base = 5; // valeur de base d’un puits
-  const multiplier = 1.07; // croissance par niveau
-  return base * Math.pow(multiplier, level);
-}
-
-function coutUpgrade(level) {
-  const baseCost = 100;
-  const growth = 1.15;
-  return Math.floor(baseCost * Math.pow(growth, level));
-}
-
-function capaciteTransport(level) {
-  const base = 20;
-  const growth = 1.12;
-  return Math.floor(base * Math.pow(growth, level));
-}
-
-class Transport {
-  constructor(level = 1) {
-    this.level = level;
-  }
-
-  get capacity() {
-    return capaciteTransport(this.level);
-  }
-
-  get nextCost() {
-    return coutUpgrade(this.level);
-  }
-}
-
-<script src="script.js"></script>
