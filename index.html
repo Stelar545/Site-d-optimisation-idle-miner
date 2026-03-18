@@ -1,36 +1,29 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Optimiseur Idle Miner Tycoon</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Optimiseur Idle Miner Tycoon</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h1>Optimiseur Idle Miner Tycoon</h1>
+    <h1>Optimiseur Idle Miner Tycoon</h1>
 
-  <!-- MENU MULTI-MINE -->
-  <nav id="mineSelector"></nav>
+    <!-- MENU MULTI-MINE -->
+    <nav id="mineSelector"></nav>
 
-  <section id="transport">
-    <h2>Transport</h2>
+    <section id="transport">
+        <h2>Transport</h2>
 
-    <div class="bloc">
-      <p>Ascenseur — Niveau : <span id="elevatorLevel"></span></p>
-<p>Dépôt — Niveau : <span id="warehouseLevel"></span></p>
+        <p>Ascenseur — Niveau : <span id="elevatorLevel"></span></p>
+        <p>Dépôt — Niveau : <span id="warehouseLevel"></span></p>
+    </section>
 
-    </div>
-  </section>
+    <section id="mines">
+        <h2>Puits</h2>
 
-  <section id="mines">
-    <h2>Puits</h2>
+        <button onclick="ajouterMine()">Ajouter un puits</button>
+        <p id="recommandation"></p>
 
-    <button onclick="ajouterMine()">Ajouter un puits</button>
-    <p id="recommandation"></p>
-
-    <div id="mineList"></div>
-  </section>
-
-  <script src="script.js?v=2"></script>
-</body>
-</html>
+        <div id="mineList"></div>
+    </section>
