@@ -35,7 +35,7 @@
 </head>
 <body>
 
-<h1>⛏️ Idle Miner Optimizer</h1>
+<h1>⛏️ Idle Miner Optimizer PRO</h1>
 
 <div class="box">
   <h3>Puits</h3>
@@ -59,35 +59,57 @@ let shaftCount = 0;
 function addShaft() {
   shaftCount++;
   let div = document.createElement("div");
-  div.innerHTML = "Puits " + shaftCount + " : <input id='s"+shaftCount+"' type='number'><br>";
+  div.innerHTML = "Puits " + shaftCount + 
+    " : <input id='s"+shaftCount+"' type='number'><br>";
   document.getElementById("shafts").appendChild(div);
 }
 
-// Ajouter 3 puits au début
-for (let i = 0; i < 3; i++) addShaft();
+// 6 puits par défaut
+for (let i = 0; i < 6; i++) addShaft();
 
 function calc() {
+  let elevator = parseInt(document.getElementById("elevator").value) || 0;
+  let warehouse = parseInt(document.getElementById("warehouse").value) || 0;
+
   let bestValue = 0;
   let bestShaft = 0;
+  let totalProduction = 0;
 
+  let shafts = [];
+
+  // Calcul production
   for (let i = 1; i <= shaftCount; i++) {
     let level = parseInt(document.getElementById("s"+i).value) || 0;
 
-    // formule de rentabilité
-    let value = Math.pow(level, 1.5);
+    // simulation production
+    let production = Math.pow(level, 1.6);
+
+    shafts.push({level, production});
+    totalProduction += production;
+  }
+
+  // Capacité transport simulée
+  let transportCapacity = Math.pow(elevator, 1.5) + Math.pow(warehouse, 1.5);
+
+  // 🔴 Si transport bloque
+  if (transportCapacity < totalProduction * 0.7) {
+    document.getElementById("result").innerText =
+      "⚠️ Upgrade ASCENSEUR ou ENTREPÔT";
+    return;
+  }
+
+  // 🟢 Sinon → meilleur puits
+  for (let i = 0; i < shafts.length; i++) {
+    let value = shafts[i].production;
 
     if (value > bestValue) {
       bestValue = value;
-      bestShaft = i;
+      bestShaft = i + 1;
     }
   }
 
-  if (bestShaft === 0) {
-    document.getElementById("result").innerText = "Entre des valeurs !";
-  } else {
-    document.getElementById("result").innerText =
-      "👉 Upgrade Puits " + bestShaft;
-  }
+  document.getElementById("result").innerText =
+    "👉 Upgrade Puits " + bestShaft;
 }
 </script>
 
