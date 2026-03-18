@@ -18,6 +18,8 @@ Logique actuelle :
 - Sinon → upgrade meilleur puits
 */
 
+// --- FORMULES ---
+
 function productionMine(level) {
   const base = 5;
   const multiplier = 1.07;
@@ -35,6 +37,8 @@ function capaciteTransport(level) {
   const growth = 1.12;
   return Math.floor(base * Math.pow(growth, level));
 }
+
+// --- CLASSES ---
 
 class Mine {
   constructor(id, level = 1) {
@@ -65,71 +69,23 @@ class Transport {
   }
 }
 
+// --- ÉTAT DU JEU ---
+
 let mines = [];
 let elevator = new Transport(1);
 let warehouse = new Transport(1);
 
-function afficherMines() {
-  const container = document.getElementById("mineList");
-  container.innerHTML = "";
-
-  mines.forEach(mine => {
-    const div = document.createElement("div");
-    div.className = "mine";
-
-    div.innerHTML = `
-      <p>Puits ${mine.id} — Niveau : ${mine.level}</p>
-      <p>Production : ${mine.production.toFixed(2)}</p>
-      <button onclick="upgradeMine(${mine.id})">Upgrade</button>
-    `;
-
-    container.appendChild(div);
-  });
-}
-
-function afficherTransport() {
-  document.getElementById("elevatorLevel").textContent = elevator.level;
-  document.getElementById("warehouseLevel").textContent = warehouse.level;
-}
-
-function ajouterMine() {
-  const id = mines.length + 1;
-  mines.push(new Mine(id));
-  afficherMines();
-}
-
-function upgradeMine(id) {
-  const mine = mines.find(m => m.id === id);
-  if (!mine) return;
-
-  mine.level++;
-  afficherMines();
-}
-
-function upgradeElevator() {
-  elevator.level++;
-  afficherTransport();
-}
-
-function upgradeWarehouse() {
-  warehouse.level++;
-  afficherTransport();
-}
+// --- RECOMMANDATION ---
 
 function meilleureAmelioration() {
   if (mines.length === 0) {
     return "Ajoute au moins un puits.";
   }
 
-  // 1. Production totale
   const totalProduction = mines.reduce((sum, m) => sum + m.production, 0);
-
-  // 2. Capacité totale du transport
   const transportCapacity = elevator.capacity + warehouse.capacity;
 
-  // 3. Si le transport bloque
   if (totalProduction > transportCapacity) {
-    // On choisit le moins cher entre ascenseur et dépôt
     if (elevator.nextCost < warehouse.nextCost) {
       return "Upgrade Ascenseur (transport bloque)";
     } else {
@@ -137,7 +93,6 @@ function meilleureAmelioration() {
     }
   }
 
-  // 4. Sinon : trouver le puits le plus rentable
   let meilleur = null;
 
   mines.forEach(mine => {
@@ -150,20 +105,6 @@ function meilleureAmelioration() {
   });
 
   return `Upgrade Puits ${meilleur.id}`;
-}
-
-afficherTransport();
-afficherMines();
-
-function afficherRecommandation() {
-  const reco = meilleureAmelioration();
-  document.getElementById("recommandation").textContent = "👉 " + reco;
-}
-
-function ajouterMine() {
-  const id = mines.length + 1;
-  mines.push(new Mine(id));
-  afficherRecommandation();
 }
 
 // --- AFFICHAGE ---
@@ -196,7 +137,6 @@ function afficherRecommandation() {
   document.getElementById("recommandation").textContent = "👉 " + reco;
 }
 
-
 // --- ACTIONS ---
 
 function ajouterMine() {
@@ -226,6 +166,8 @@ function upgradeWarehouse() {
   afficherTransport();
   afficherRecommandation();
 }
+
+// --- INITIALISATION ---
 
 afficherTransport();
 afficherMines();
