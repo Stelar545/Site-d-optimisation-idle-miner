@@ -137,30 +137,42 @@ function meilleureAmelioration() {
   const data = minesData[mineActive];
   const mines = data.mines;
 
-  if (mines.length === 0) return "Ajoute au moins un puits.";
+  // Aucun puits → débloquer un puits
+  if (mines.length === 0) return "Débloquer un nouveau puits";
 
   const totalProduction = mines.reduce((sum, m) => sum + m.production, 0);
   const transportCapacity = data.elevator.capacity + data.warehouse.capacity;
 
+  // Transport bloque ?
   if (totalProduction > transportCapacity) {
     if (data.elevator.nextCost < data.warehouse.nextCost) {
-      return "Upgrade Ascenseur (transport bloque)";
+      return "Upgrade Ascenseur (transport bloqué)";
     } else {
-      return "Upgrade Dépôt (transport bloque)";
+      return "Upgrade Dépôt (transport bloqué)";
     }
   }
 
+  // Meilleur upgrade de puits
   let meilleur = null;
 
   mines.forEach(mine => {
     const ratio = mine.gain / mine.nextCost;
     if (!meilleur || ratio > meilleur.ratio) {
-      meilleur = { id: mine.id, ratio };
+      meilleur = { id: mine.id, ratio, cost: mine.nextCost };
     }
   });
 
+  // Coût d’un nouveau puits
+  const costNew = coutNouveauPuits();
+
+  // Si un nouveau puits est plus intéressant que le meilleur upgrade
+  if (costNew < meilleur.cost) {
+    return "Débloquer un nouveau puits";
+  }
+
   return `Upgrade Puits ${meilleur.id}`;
 }
+
 
 // --- AFFICHAGE ---
 
