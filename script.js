@@ -1,7 +1,7 @@
 /*
 OPTIMISEUR IDLE MINER TYCOON — VERSION MULTI-MINE
 Option A : Multi-mine simple avec menu horizontal
-Sauvegarde séparée + boutons + / - + coût + gain
+Sauvegarde séparée + boutons + / - + coût + gain + saisie clavier
 */
 
 // --- FORMULES ---
@@ -61,8 +61,8 @@ class Transport {
 
 // --- MULTI-MINE ---
 
-let minesData = {};     // Contient toutes les mines
-let mineActive = 1;     // Mine actuellement sélectionnée
+let minesData = {};
+let mineActive = 1;
 
 function creerNouvelleMine(id) {
   return {
@@ -84,7 +84,6 @@ function chargerMine(id) {
   if (data) {
     minesData[id] = JSON.parse(data);
 
-    // Reconvertir en objets Mine / Transport
     minesData[id].mines = minesData[id].mines.map(m => new Mine(m.id, m.level));
     minesData[id].elevator = new Transport(minesData[id].elevator.level);
     minesData[id].warehouse = new Transport(minesData[id].warehouse.level);
@@ -189,12 +188,6 @@ function afficherMines() {
   });
 }
 
-
-
-    container.appendChild(div);
-  });
-}
-
 function afficherTransport() {
   const data = minesData[mineActive];
 
@@ -210,7 +203,6 @@ function afficherTransport() {
            style="width:60px; text-align:center;">
   `;
 }
-
 
 function afficherRecommandation() {
   document.getElementById("recommandation").textContent =
@@ -251,7 +243,6 @@ function downgradeMine(id) {
 function setMineLevel(id, value) {
   const mine = minesData[mineActive].mines.find(m => m.id === id);
   let lvl = parseInt(value);
-
   if (isNaN(lvl) || lvl < 1) lvl = 1;
 
   mine.level = lvl;
@@ -291,7 +282,6 @@ function setWarehouseLevel(value) {
 
 // --- INITIALISATION ---
 
-// Charger 3 mines par défaut
 chargerMine(1);
 chargerMine(2);
 chargerMine(3);
