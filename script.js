@@ -10,12 +10,6 @@ Améliorations futures :
 - Interface plus propre (UI)
 - Ajouter graphiques
 - Multi-mines
-
-Logique actuelle :
-- Production = level ^ 1.6
-- Transport = elevator + warehouse
-- Si transport bloque → upgrade transport
-- Sinon → upgrade meilleur puits
 */
 
 // --- FORMULES ---
@@ -167,63 +161,8 @@ function upgradeWarehouse() {
   afficherRecommandation();
 }
 
-function sauvegarder() {
-  const data = {
-    mines: mines.map(m => ({ id: m.id, level: m.level })),
-    elevator: elevator.level,
-    warehouse: warehouse.level
-  };
-
-  localStorage.setItem("idleMinerSave", JSON.stringify(data));
-}
-
-function charger() {
-  const data = localStorage.getItem("idleMinerSave");
-  if (!data) return;
-
-  const save = JSON.parse(data);
-
-  mines = save.mines.map(m => new Mine(m.id, m.level));
-  elevator = new Transport(save.elevator);
-  warehouse = new Transport(save.warehouse);
-}
-
-function ajouterMine() {
-  const id = mines.length + 1;
-  mines.push(new Mine(id));
-  afficherMines();
-  afficherRecommandation();
-  sauvegarder();
-}
-
-function upgradeMine(id) {
-  const mine = mines.find(m => m.id === id);
-  if (!mine) return;
-
-  mine.level++;
-  afficherMines();
-  afficherRecommandation();
-  sauvegarder();
-}
-
-function upgradeElevator() {
-  elevator.level++;
-  afficherTransport();
-  afficherRecommandation();
-  sauvegarder();
-}
-
-function upgradeWarehouse() {
-  warehouse.level++;
-  afficherTransport();
-  afficherRecommandation();
-  sauvegarder();
-}
-
 // --- INITIALISATION ---
 
-charger();
 afficherTransport();
 afficherMines();
 afficherRecommandation();
-
