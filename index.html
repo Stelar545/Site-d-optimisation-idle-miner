@@ -1,30 +1,3 @@
-/*
-OBJECTIF DU PROJET :
-
-Créer un optimiseur Idle Miner Tycoon comme Bromine.
-
-Améliorations futures :
-- Ajouter vrai coût des upgrades
-- Ajouter revenus par seconde réels
-- Ajouter managers et boosts
-- Ajouter sauvegarde (localStorage)
-- Interface plus propre (UI)
-- Ajouter graphiques
-- Multi-mines
-
-Logique actuelle :
-- Production = level ^ 1.6
-- Transport = elevator + warehouse
-- Si transport bloque → upgrade transport
-- Sinon → upgrade meilleur puits
-*/
-
-// Ton code commence ici ↓↓↓
-
-function calculerProduction(level) {
-  return Math.pow(level, 1.6);
-}
-
 <!DOCTYPE html>
 <html>
 <head>
